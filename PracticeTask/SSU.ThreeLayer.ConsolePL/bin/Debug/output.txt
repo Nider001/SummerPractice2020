@@ -1,0 +1,32 @@
+[Users]
+3
+Ivanov
+5-7-1999
+
+2
+Sidorov
+22-4-1999
+
+1
+Sorokin
+20-5-1999
+
+[Awards]
+3
+Medal 3
+2
+Medal 2
+1
+Medal 1
+[Linkers]
+1
+1
+
+1
+2
+
+2
+3
+
+3
+1
