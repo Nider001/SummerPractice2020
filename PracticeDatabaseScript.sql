@@ -1,16 +1,16 @@
 USE [master]
 GO
 
-/*CREATE DATABASE PracticeDatabase
-GO*/
+CREATE DATABASE PracticeDatabase
+GO
 
 USE PracticeDatabase
 GO
 
 CREATE TABLE [Users] (
 	Id int IDENTITY(1,1) NOT NULL CONSTRAINT PK_USERS PRIMARY KEY, 
-	Login varchar(255) NOT NULL,
-	HashPassword binary NOT NULL,
+	Login varchar(255) NOT NULL UNIQUE,
+	HashPassword binary(4) NOT NULL,
 	Name varchar(255) NOT NULL,
 	DateOfBirth date NOT NULL,
 	Info varchar(2550) NOT NULL,
@@ -65,4 +65,23 @@ GO
 ALTER TABLE [Ratings] CHECK CONSTRAINT [Ratings_fk1]
 GO
 
+SET NOCOUNT ON;  
+GO
 
+CREATE PROCEDURE GetShopRatingByName
+@ShopName varchar(255),  
+@ShopRating float OUTPUT  
+AS
+	DECLARE @ShopId int
+	SELECT @ShopId = Id FROM Shops WHERE Name = @ShopName
+    SELECT @ShopRating = CAST(SUM(Rating) AS float)/COUNT(Rating) FROM Ratings WHERE ShopId = @ShopId
+RETURN  
+GO  
+
+CREATE PROCEDURE GetShopRatingById
+@ShopId int,  
+@ShopRating float OUTPUT  
+AS
+    SELECT @ShopRating = CAST(SUM(Rating) AS float)/COUNT(Rating) FROM Ratings WHERE ShopId = @ShopId
+RETURN  
+GO
