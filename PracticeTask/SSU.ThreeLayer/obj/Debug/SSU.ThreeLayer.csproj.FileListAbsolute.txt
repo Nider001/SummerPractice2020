@@ -1,2 +1,0 @@
-D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer\obj\Debug\SSU.ThreeLayer.csprojAssemblyReference.cache
-D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer\obj\Debug\SSU.ThreeLayer.csproj.CoreCompileInputs.cache
