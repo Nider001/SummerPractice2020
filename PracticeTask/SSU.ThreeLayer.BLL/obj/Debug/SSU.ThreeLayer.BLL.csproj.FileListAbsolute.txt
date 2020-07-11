@@ -1,0 +1,44 @@
+D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.BLL.dll
+D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.BLL.pdb
+D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.DAL.dll
+D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.Entities.dll
+D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.DAL.pdb
+D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.Entities.pdb
+D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.csprojAssemblyReference.cache
+D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.csproj.CoreCompileInputs.cache
+D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.csproj.CopyComplete
+D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.dll
+D:\Дмитрий\Информатика\Трехслойная архитектура\MyThreeLayer\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.pdb
+D:\Дмитрий\GitHub\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.BLL.dll
+D:\Дмитрий\GitHub\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.BLL.pdb
+D:\Дмитрий\GitHub\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.DAL.dll
+D:\Дмитрий\GitHub\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.Entities.dll
+D:\Дмитрий\GitHub\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.DAL.pdb
+D:\Дмитрий\GitHub\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.Entities.pdb
+D:\Дмитрий\GitHub\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.csprojAssemblyReference.cache
+D:\Дмитрий\GitHub\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.csproj.CoreCompileInputs.cache
+D:\Дмитрий\GitHub\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.csproj.CopyComplete
+D:\Дмитрий\GitHub\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.dll
+D:\Дмитрий\GitHub\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.pdb
+D:\Дмитрий\Информатика\Третий курс\adoNET\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.BLL.dll
+D:\Дмитрий\Информатика\Третий курс\adoNET\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.BLL.pdb
+D:\Дмитрий\Информатика\Третий курс\adoNET\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.DAL.dll
+D:\Дмитрий\Информатика\Третий курс\adoNET\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.Entities.dll
+D:\Дмитрий\Информатика\Третий курс\adoNET\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.DAL.pdb
+D:\Дмитрий\Информатика\Третий курс\adoNET\SSU.ThreeLayer\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.Entities.pdb
+D:\Дмитрий\Информатика\Третий курс\adoNET\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.csprojAssemblyReference.cache
+D:\Дмитрий\Информатика\Третий курс\adoNET\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.csproj.CoreCompileInputs.cache
+D:\Дмитрий\Информатика\Третий курс\adoNET\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.csproj.CopyComplete
+D:\Дмитрий\Информатика\Третий курс\adoNET\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.dll
+D:\Дмитрий\Информатика\Третий курс\adoNET\SSU.ThreeLayer\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.pdb
+D:\Дмитрий\GitHub\SummerPractice2020\PracticeTask\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.BLL.dll
+D:\Дмитрий\GitHub\SummerPractice2020\PracticeTask\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.BLL.pdb
+D:\Дмитрий\GitHub\SummerPractice2020\PracticeTask\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.DAL.dll
+D:\Дмитрий\GitHub\SummerPractice2020\PracticeTask\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.Entities.dll
+D:\Дмитрий\GitHub\SummerPractice2020\PracticeTask\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.DAL.pdb
+D:\Дмитрий\GitHub\SummerPractice2020\PracticeTask\SSU.ThreeLayer.BLL\bin\Debug\SSU.ThreeLayer.Entities.pdb
+D:\Дмитрий\GitHub\SummerPractice2020\PracticeTask\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.csprojAssemblyReference.cache
+D:\Дмитрий\GitHub\SummerPractice2020\PracticeTask\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.csproj.CoreCompileInputs.cache
+D:\Дмитрий\GitHub\SummerPractice2020\PracticeTask\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.csproj.CopyComplete
+D:\Дмитрий\GitHub\SummerPractice2020\PracticeTask\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.dll
+D:\Дмитрий\GitHub\SummerPractice2020\PracticeTask\SSU.ThreeLayer.BLL\obj\Debug\SSU.ThreeLayer.BLL.pdb
