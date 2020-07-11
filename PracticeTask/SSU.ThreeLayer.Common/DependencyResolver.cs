@@ -5,10 +5,10 @@ namespace SSU.ThreeLayer.Common
 {
     public static class DependencyResolver
     {
-        static private IBaseDatabase baseDatabase;
-        static private IDatabaseLogic databaseLogic;
+        static private IDataAccess dataAccess;
+        static private IBusinessLogic businessLogic;
 
-        static public IBaseDatabase BaseDatabase { get => baseDatabase ?? new BaseDatabase(); }
-        static public IDatabaseLogic DatabaseLogic { get => databaseLogic ?? new DatabaseLogic(BaseDatabase); }
+        static public IDataAccess DataAccess { get => dataAccess ?? new DataAccess(); }
+        static public IBusinessLogic BusinessLogic { get => businessLogic ?? new BusinessLogic(DataAccess); }
     }
 }

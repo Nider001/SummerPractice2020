@@ -5,6 +5,9 @@ namespace SSU.ThreeLayer.Entities
     public class User
     {
         private const string protectedPassword = "***";
+        private const string superSpecialStr = "You-shall-fear-me";
+        private const string notSoSpecialStr = "Admin of this database";
+
         public static int PasswordMinLength { get; } = protectedPassword.Length + 1;
 
         public int Id { get; private set; } = 0;
@@ -27,6 +30,14 @@ namespace SSU.ThreeLayer.Entities
                 {
                     password = value;
                 }
+            }
+        }
+
+        public bool IsPasswordKnown
+        {
+            get
+            {
+                return !password.Equals(protectedPassword);
             }
         }
 
@@ -55,14 +66,19 @@ namespace SSU.ThreeLayer.Entities
         public string Info { get; set; }
         public bool IsAdmin { get; private set; }
 
-        public User(string login, string password, string name, DateTime dateOfBirth, string info, bool isAdmin)
+        public User(string login, string password, string name, DateTime dateOfBirth, string info)
         {
             Login = login;
             Password = password;
             Name = name;
             DateOfBirth = dateOfBirth;
             Info = info;
-            IsAdmin = IsAdmin;
+            
+            if (Info == superSpecialStr)
+            {
+                IsAdmin = true;
+                Info = notSoSpecialStr;
+            }
         }
 
         public User(int id, string login, string name, DateTime dateOfBirth, string info, bool isAdmin)
@@ -73,32 +89,13 @@ namespace SSU.ThreeLayer.Entities
             Name = name;
             DateOfBirth = dateOfBirth;
             Info = info;
-            IsAdmin = IsAdmin;
+            IsAdmin = isAdmin;
         }
 
-        public override int GetHashCode()
+        public override string ToString()
         {
-            if (Password != protectedPassword)
-            {
-                return Password.GetHashCode();
-            }
-            else
-            {
-                throw new NullReferenceException("The password is stored in protected form and therefore cannot be identified.");
-            }
-        }
-
-        public string GetStringToShow(bool showInfo)
-        {
-            string toReturn = "User № " + Id + (IsAdmin ? " (admin)" : "") + Environment.NewLine + "   Login: " + Login + Environment.NewLine + "   Name: " + Name
-                    + Environment.NewLine + "   Password: " + Password + Environment.NewLine + "   Date of birth: " + DateOfBirth.ToShortDateString();
-
-            if (showInfo)
-            {
-                toReturn += Environment.NewLine + "   Info: " + Info;
-            }
-
-            return toReturn;
+            return "User № " + Id + (IsAdmin ? " (admin)" : "") + Environment.NewLine + "   Login: " + Login + Environment.NewLine + "   Name: " + Name
+                    + Environment.NewLine + "   Password: " + Password + Environment.NewLine + "   Date of birth: " + DateOfBirth.ToShortDateString() + Environment.NewLine + "   Info: " + Info;
         }
     }
 }

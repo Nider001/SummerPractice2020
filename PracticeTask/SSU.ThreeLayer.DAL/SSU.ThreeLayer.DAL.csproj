@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseDatabase.cs" />
-    <Compile Include="IBaseDatabase.cs" />
+    <Compile Include="DataAccess.cs" />
+    <Compile Include="IUserAccess.cs" />
+    <Compile Include="IShopAccess.cs" />
+    <Compile Include="IDataAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

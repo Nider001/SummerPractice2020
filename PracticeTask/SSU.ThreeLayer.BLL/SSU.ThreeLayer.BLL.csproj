@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDatabaseLogic.cs" />
-    <Compile Include="DatabaseLogic.cs" />
+    <Compile Include="IBusinessLogic.cs" />
+    <Compile Include="BusinessLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@ using SSU.ThreeLayer.Entities;
 
 namespace SSU.ThreeLayer.BLL
 {
-    public interface IDatabaseLogic
+    public interface IBusinessLogic
     {
         User GetCurrentUser();
 
@@ -15,11 +15,17 @@ namespace SSU.ThreeLayer.BLL
         void ChangeCurrentUserInfo(string newInfo);
         void ChangeCurrentUserDateOfBirth(System.DateTime newDate);
 
-        float GetShopRatingByName(string shopName);
-        float GetShopRatingByIndex(int index);
+        string GetShopRatingByName(string shopName);
+        string GetShopRatingByIndex(int index);
 
         List<Shop> GetAllShops();
         List<User> GetAllUsers();
+
+        List<Shop> FindShopsByName(string shopName);
+        List<Shop> FindShopsByCity(string city);
+        List<Shop> FindShopsByCityAndType(string city, string type);
+
+        void RateShop(int shopId, int rating);
 
         bool LogIn(string login, string password);
         User GetUser(int index);
