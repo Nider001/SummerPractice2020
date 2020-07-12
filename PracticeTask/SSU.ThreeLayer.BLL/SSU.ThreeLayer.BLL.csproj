@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IDataValidator.cs" />
+    <Compile Include="DataValidator.cs" />
     <Compile Include="UserBusinessLogic.cs" />
     <Compile Include="ShopBusinessLogic.cs" />
     <Compile Include="Interfaces\IUserBusinessLogic.cs" />

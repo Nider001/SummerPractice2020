@@ -119,3 +119,18 @@ ELSE
         RETURN @Index
     END;
 GO
+
+CREATE PROCEDURE RateShopOrUpdate
+@ShopId int,
+@UserId int,
+@Rating int
+AS
+IF EXISTS(SELECT * FROM Ratings WHERE ShopId = @ShopId AND UserId = @UserId)
+    BEGIN  
+        UPDATE Ratings SET Rating = @Rating WHERE (ShopId = @ShopId AND UserId = @UserId)
+    END  
+ELSE  
+    BEGIN  
+        INSERT INTO Ratings(ShopId, UserId, Rating) VALUES (@ShopId, @UserId, @Rating)
+    END;
+GO

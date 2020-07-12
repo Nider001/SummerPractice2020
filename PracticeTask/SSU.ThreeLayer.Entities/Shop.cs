@@ -8,6 +8,7 @@ namespace SSU.ThreeLayer.Entities
 {
     public class Shop
     {
+        public static int MinRating { get; } = 1;
         public static int MaxRating { get; } = 5;
 
         public int Id { get; set; } = 0;

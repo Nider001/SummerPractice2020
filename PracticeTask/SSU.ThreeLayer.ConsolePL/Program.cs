@@ -326,7 +326,7 @@ namespace SSU.ThreeLayer.ConsolePL
         {
             Console.Write("Enter database number of the shop: ");
             int shopId = int.Parse(Console.ReadLine());
-            Console.Write("Enter the rating (1-{0}): ", Shop.MaxRating);
+            Console.Write("Enter the rating ({0}-{1}): ", Shop.MinRating, Shop.MaxRating);
             int rating = int.Parse(Console.ReadLine());
             userData.RateShop(shopId, rating);
             Console.WriteLine("Success.");
@@ -472,7 +472,7 @@ namespace SSU.ThreeLayer.ConsolePL
             {
                 string rating = shopData.GetShopRatingByIndex(shop.Id);
 
-                Console.WriteLine(shop.ToString() + Environment.NewLine + String.Format("   Rating: {0}", rating));
+                Console.WriteLine(shop.ToString() + Environment.NewLine + string.Format("   Rating: {0}", rating));
 
                 Console.WriteLine();
             }

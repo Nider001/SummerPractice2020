@@ -116,7 +116,7 @@ namespace SSU.ThreeLayer.DAL
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id WHERE Shops.Name = '{0}'", shopName);
+                    command.CommandText = string.Format("SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id WHERE Shops.Name = '{0}'", shopName);
                     command.Connection = cnn;
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -144,7 +144,7 @@ namespace SSU.ThreeLayer.DAL
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id WHERE Addresses.City = '{0}'", city);
+                    command.CommandText = string.Format("SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id WHERE Addresses.City = '{0}'", city);
                     command.Connection = cnn;
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -172,7 +172,7 @@ namespace SSU.ThreeLayer.DAL
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id WHERE (Addresses.City = '{0}' AND ShopTypes.Name = '{1}')", city, type);
+                    command.CommandText = string.Format("SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id WHERE (Addresses.City = '{0}' AND ShopTypes.Name = '{1}')", city, type);
                     command.Connection = cnn;
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -263,7 +263,7 @@ namespace SSU.ThreeLayer.DAL
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand()) // add shop type if needed
                 {
-                    command.CommandText = String.Format("INSERT INTO Shops(Name, TypeId, AddressId) VALUES('{0}', {1}, {2})", shop.Name, typeId, addressId);
+                    command.CommandText = string.Format("INSERT INTO Shops(Name, TypeId, AddressId) VALUES('{0}', {1}, {2})", shop.Name, typeId, addressId);
                     command.Connection = cnn;
                     command.ExecuteNonQuery();
                 }
@@ -277,7 +277,7 @@ namespace SSU.ThreeLayer.DAL
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("DELETE FROM Shops WHERE Id = {0};", index);
+                    command.CommandText = string.Format("DELETE FROM Shops WHERE Id = {0};", index);
                     command.Connection = cnn;
                     command.ExecuteNonQuery();
                 }

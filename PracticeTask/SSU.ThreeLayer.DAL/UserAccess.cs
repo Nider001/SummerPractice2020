@@ -1,6 +1,7 @@
 ﻿using SSU.ThreeLayer.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace SSU.ThreeLayer.DAL
@@ -25,7 +26,7 @@ namespace SSU.ThreeLayer.DAL
                     cnn.Open();
                     using (SqlCommand command = new SqlCommand())
                     {
-                        command.CommandText = String.Format("INSERT INTO Users(Login, HashPassword, Name, DateOfBirth, Info, IsAdmin) VALUES('{0}', 0x{1}, '{2}', '{3}', {4}, {5})", user.Login, passwordHashStr, user.Name, user.DateOfBirth.ToString("yyyy-MM-dd"), (user.Info.Length != 0 ? String.Format("'{0}'", user.Info) : "NULL"), (user.IsAdmin ? 1 : 0));
+                        command.CommandText = string.Format("INSERT INTO Users(Login, HashPassword, Name, DateOfBirth, Info, IsAdmin) VALUES('{0}', 0x{1}, '{2}', '{3}', {4}, {5})", user.Login, passwordHashStr, user.Name, user.DateOfBirth.ToString("yyyy-MM-dd"), (user.Info.Length != 0 ? string.Format("'{0}'", user.Info) : "NULL"), (user.IsAdmin ? 1 : 0));
                         command.Connection = cnn;
                         command.ExecuteNonQuery();
                     }
@@ -47,7 +48,7 @@ namespace SSU.ThreeLayer.DAL
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("UPDATE Users SET DateOfBirth = '{0}' WHERE Login = '{1}';", newDate.ToString("yyyy-MM-dd"), currentUser.Login);
+                    command.CommandText = string.Format("UPDATE Users SET DateOfBirth = '{0}' WHERE Login = '{1}';", newDate.ToString("yyyy-MM-dd"), currentUser.Login);
                     command.Connection = cnn;
                     command.ExecuteNonQuery();
 
@@ -63,7 +64,7 @@ namespace SSU.ThreeLayer.DAL
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("UPDATE Users SET Info = {0} WHERE Login = '{1}';", (newInfo.Length != 0 ? String.Format("'{0}'", newInfo) : "NULL"), currentUser.Login);
+                    command.CommandText = String.Format("UPDATE Users SET Info = {0} WHERE Login = '{1}';", (newInfo.Length != 0 ? string.Format("'{0}'", newInfo) : "NULL"), currentUser.Login);
                     command.Connection = cnn;
                     command.ExecuteNonQuery();
 
@@ -79,7 +80,7 @@ namespace SSU.ThreeLayer.DAL
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("UPDATE Users SET Name = '{0}' WHERE Login = '{1}';", newName, currentUser.Login);
+                    command.CommandText = string.Format("UPDATE Users SET Name = '{0}' WHERE Login = '{1}';", newName, currentUser.Login);
                     command.Connection = cnn;
                     command.ExecuteNonQuery();
 
@@ -95,7 +96,7 @@ namespace SSU.ThreeLayer.DAL
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("UPDATE Users SET HashPassword = 0x{0} WHERE Login = '{1}';", passwordHashStr, currentUser.Login);
+                    command.CommandText = string.Format("UPDATE Users SET HashPassword = 0x{0} WHERE Login = '{1}';", passwordHashStr, currentUser.Login);
                     command.Connection = cnn;
                     command.ExecuteNonQuery();
                 }
@@ -110,7 +111,7 @@ namespace SSU.ThreeLayer.DAL
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("DELETE FROM Users WHERE Id = {0};", index);
+                    command.CommandText = string.Format("DELETE FROM Users WHERE Id = {0};", index);
                     command.Connection = cnn;
                     command.ExecuteNonQuery();
                 }
@@ -161,7 +162,7 @@ namespace SSU.ThreeLayer.DAL
 
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("SELECT * FROM Users WHERE (Login = '{0}')", login);
+                    command.CommandText = string.Format("SELECT * FROM Users WHERE (Login = '{0}')", login);
                     command.Connection = cnn;
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -194,7 +195,7 @@ namespace SSU.ThreeLayer.DAL
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("SELECT * FROM Users WHERE (Users.Id = {0})", index);
+                    command.CommandText = string.Format("SELECT * FROM Users WHERE (Users.Id = {0})", index);
                     command.Connection = cnn;
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -212,7 +213,7 @@ namespace SSU.ThreeLayer.DAL
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("SELECT * FROM Users WHERE (Users.Login = '{0}')", login);
+                    command.CommandText = string.Format("SELECT * FROM Users WHERE (Users.Login = '{0}')", login);
                     command.Connection = cnn;
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -224,46 +225,30 @@ namespace SSU.ThreeLayer.DAL
             }
         }
 
-        private void UpdateRating(int shopId, int rating)
+        public void RateShop(int shopId, int rating)
         {
             using (var cnn = new SqlConnection(connectionString))
             {
                 cnn.Open();
                 using (SqlCommand command = new SqlCommand())
                 {
-                    command.CommandText = String.Format("UPDATE Ratings SET Rating = {0} WHERE (shopId = {1} AND userId = {2});", rating, shopId, currentUser.Id);
+                    command.CommandText = "RateShopOrUpdate";
+                    command.CommandType = CommandType.StoredProcedure;
                     command.Connection = cnn;
+
+                    SqlParameter ShopId = new SqlParameter("@ShopId", SqlDbType.Int);
+                    ShopId.Value = shopId;
+                    command.Parameters.Add(ShopId);
+
+                    SqlParameter UserId = new SqlParameter("@UserId", SqlDbType.Int);
+                    UserId.Value = currentUser.Id;
+                    command.Parameters.Add(UserId);
+
+                    SqlParameter Rating = new SqlParameter("@Rating", SqlDbType.Int);
+                    Rating.Value = rating;
+                    command.Parameters.Add(Rating);
+
                     command.ExecuteNonQuery();
-                }
-            }
-        }
-
-        public void RateShop(int shopId, int rating)
-        {
-            if (rating < 0 || rating > Shop.MaxRating)
-            {
-                throw new ArgumentException("Rating value is out of bounds.");
-            }
-
-            using (var cnn = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = String.Format("INSERT INTO Ratings(ShopId, UserId, Rating) VALUES ({0}, {1}, {2})", shopId, currentUser.Id, rating);
-                        command.Connection = cnn;
-                        command.ExecuteNonQuery();
-                    }
-                }
-                catch (SqlException e)
-                {
-                    if (e.Number == 2601)
-                    {
-                        cnn.Close();
-                        UpdateRating(shopId, rating);
-                    }
                 }
             }
         }
