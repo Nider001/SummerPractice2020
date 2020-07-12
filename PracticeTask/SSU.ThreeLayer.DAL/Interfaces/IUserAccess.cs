@@ -6,10 +6,21 @@ namespace SSU.ThreeLayer.DAL
 {
     public interface IUserAccess
     {
-        void AddUser(User user);
+        User GetCurrentUser();
+
+        void ChangeCurrentUserPassword(string newPassword, string passwordHashStr);
+        void ChangeCurrentUserName(string newName);
+        void ChangeCurrentUserInfo(string newInfo);
+        void ChangeCurrentUserDateOfBirth(System.DateTime newDate);
+
+        bool LogIn(string login, string password);
+
+        void AddUser(User user, string passwordHashStr);
         void DeleteUser(int index);
 
         List<User> GetAllUsers();
+
+        void RateShop(int shopId, int rating);
 
         User GetUser(int index);
         User GetUser(string login);

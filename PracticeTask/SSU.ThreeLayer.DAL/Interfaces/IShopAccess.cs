@@ -23,8 +23,6 @@ namespace SSU.ThreeLayer.DAL
         List<Shop> FindShopsByCity(string city);
         List<Shop> FindShopsByCityAndType(string city, string type);
 
-        void RateShop(int shopId, int rating);
-
         Shop GetShop(int index);
     }
 }

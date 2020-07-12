@@ -6,126 +6,140 @@ namespace SSU.ThreeLayer.BLL
 {
     public class BusinessLogic : IBusinessLogic
     {
-        private IDataAccess dataAccess;
+        private IShopAccess shopAccess;
+        private IUserAccess userAccess;
 
-        public BusinessLogic(IDataAccess dataAccess)
+        public BusinessLogic(IShopAccess shopAccess, IUserAccess userAccess)
         {
-            this.dataAccess = dataAccess;
+            this.shopAccess = shopAccess;
+            this.userAccess = userAccess;
+        }
+
+        private string GetUserPasswordHashStr(User user)
+        {
+            if (user.IsPasswordKnown)
+            {
+                return System.BitConverter.ToString(System.BitConverter.GetBytes(user.Password.GetHashCode())).Replace("-", "").ToLower();
+            }
+            else
+            {
+                throw new System.NullReferenceException("The password is stored in protected form and therefore cannot be identified.");
+            }
         }
 
         public User GetCurrentUser()
         {
-            return dataAccess.GetCurrentUser();
+            return userAccess.GetCurrentUser();
         }
 
         public void AddUser(User user)
         {
-            dataAccess.AddUser(user);
+            userAccess.AddUser(user, GetUserPasswordHashStr(user));
         }
 
         public void ChangeCurrentUserDateOfBirth(System.DateTime newDate)
         {
-            dataAccess.ChangeCurrentUserDateOfBirth(newDate);
+            userAccess.ChangeCurrentUserDateOfBirth(newDate);
         }
 
         public void ChangeCurrentUserInfo(string newInfo)
         {
-            dataAccess.ChangeCurrentUserInfo(newInfo);
+            userAccess.ChangeCurrentUserInfo(newInfo);
         }
 
         public void ChangeCurrentUserName(string newName)
         {
-            dataAccess.ChangeCurrentUserName(newName);
+            userAccess.ChangeCurrentUserName(newName);
         }
 
         public void ChangeCurrentUserPassword(string newPassword)
         {
-            dataAccess.ChangeCurrentUserPassword(newPassword);
+            userAccess.ChangeCurrentUserPassword(newPassword, GetUserPasswordHashStr(new User(newPassword)));
         }
 
         public void DeleteUser(int index)
         {
-            dataAccess.DeleteUser(index);
+            userAccess.DeleteUser(index);
         }
 
         public List<Shop> GetAllShops()
         {
-            return dataAccess.GetAllShops();
+            return shopAccess.GetAllShops();
         }
 
         public List<User> GetAllUsers()
         {
-            return dataAccess.GetAllUsers();
+            return userAccess.GetAllUsers();
         }
 
         public string GetShopRatingByIndex(int index)
         {
-            return dataAccess.GetShopRatingByIndex(index);
+            return shopAccess.GetShopRatingByIndex(index);
         }
 
         public string GetShopRatingByName(string shopName)
         {
-            return dataAccess.GetShopRatingByName(shopName);
+            return shopAccess.GetShopRatingByName(shopName);
         }
 
         public bool LogIn(string login, string password)
         {
-            return dataAccess.LogIn(login, password);
+            return userAccess.LogIn(login, password);
         }
 
         public User GetUser(int index)
         {
-            return dataAccess.GetUser(index);
+            return userAccess.GetUser(index);
         }
 
         public User GetUser(string login)
         {
-            return dataAccess.GetUser(login);
+            return userAccess.GetUser(login);
         }
 
         public Shop GetShop(int index)
         {
-            return dataAccess.GetShop(index);
+            return shopAccess.GetShop(index);
         }
 
         public List<Shop> FindShopsByName(string shopName)
         {
-            return dataAccess.FindShopsByName(shopName);
+            return shopAccess.FindShopsByName(shopName);
         }
 
         public List<Shop> FindShopsByCity(string city)
         {
-            return dataAccess.FindShopsByCity(city);
+            return shopAccess.FindShopsByCity(city);
         }
 
         public List<Shop> FindShopsByCityAndType(string city, string type)
         {
-            return dataAccess.FindShopsByCityAndType(city, type);
+            return shopAccess.FindShopsByCityAndType(city, type);
         }
 
         public void RateShop(int shopId, int rating)
         {
-            dataAccess.RateShop(shopId, rating);
+            userAccess.RateShop(shopId, rating);
         }
 
         public void AddShop(Shop shop)
         {
-            dataAccess.AddShop(shop);
+            shopAccess.AddShop(shop);
         }
 
         public void DeleteShop(int index)
         {
-            dataAccess.DeleteShop(index);
+            shopAccess.DeleteShop(index);
         }
 
         public void ClearAddresses()
         {
-            dataAccess.ClearAddresses();
+            shopAccess.ClearAddresses();
         }
 
         public void ClearShopTypes()
         {
-            dataAccess.ClearShopTypes();
+            shopAccess.ClearShopTypes();
         }
     }
 }

@@ -66,6 +66,11 @@ namespace SSU.ThreeLayer.Entities
         public string Info { get; set; }
         public bool IsAdmin { get; private set; }
 
+        public User(string password) //dummy
+        {
+            Password = password;
+        }
+
         public User(string login, string password, string name, DateTime dateOfBirth, string info)
         {
             Login = login;

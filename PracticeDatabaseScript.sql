@@ -13,7 +13,7 @@ CREATE TABLE [Users] (
 	HashPassword binary(4) NOT NULL,
 	Name varchar(255) NOT NULL,
 	DateOfBirth date NOT NULL,
-	Info varchar(2550) NOT NULL,
+	Info varchar(2550),
 	IsAdmin BIT NOT NULL,
 )
 GO
@@ -72,9 +72,7 @@ CREATE PROCEDURE GetShopRatingByName
 @ShopName varchar(255),  
 @ShopRating float OUTPUT  
 AS
-	DECLARE @ShopId int
-	SELECT @ShopId = Id FROM Shops WHERE Name = @ShopName
-    SELECT @ShopRating = CAST(SUM(Rating) AS float)/COUNT(Rating) FROM Ratings WHERE ShopId = @ShopId
+    SELECT @ShopRating = CAST(SUM(Rating) AS float)/COUNT(Rating) FROM Ratings INNER JOIN Shops ON Ratings.ShopId = Shops.Id WHERE Name = @ShopName
 RETURN  
 GO  
 

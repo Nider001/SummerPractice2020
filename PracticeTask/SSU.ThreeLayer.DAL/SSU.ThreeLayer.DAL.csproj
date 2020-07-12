@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess.cs" />
-    <Compile Include="Interfaces\IDataAccess.cs" />
+    <Compile Include="ShopAccess.cs" />
+    <Compile Include="UserAccess.cs" />
     <Compile Include="Interfaces\IShopAccess.cs" />
     <Compile Include="Interfaces\IUserAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
