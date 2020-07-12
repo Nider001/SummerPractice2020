@@ -31,5 +31,11 @@ namespace SSU.ThreeLayer.BLL
         User GetUser(int index);
         User GetUser(string login);
         Shop GetShop(int index);
+
+        void AddShop(Shop shop);
+        void DeleteShop(int index);
+
+        void ClearAddresses();
+        void ClearShopTypes();
     }
 }

@@ -9,6 +9,12 @@ namespace SSU.ThreeLayer.DAL
 {
     public interface IShopAccess
     {
+        void AddShop(Shop shop);
+        void DeleteShop(int index);
+
+        void ClearAddresses();
+        void ClearShopTypes();
+
         string GetShopRatingByName(string shopName);
         string GetShopRatingByIndex(int index);
         List<Shop> GetAllShops();

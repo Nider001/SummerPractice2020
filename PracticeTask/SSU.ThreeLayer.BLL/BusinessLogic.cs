@@ -107,5 +107,25 @@ namespace SSU.ThreeLayer.BLL
         {
             dataAccess.RateShop(shopId, rating);
         }
+
+        public void AddShop(Shop shop)
+        {
+            dataAccess.AddShop(shop);
+        }
+
+        public void DeleteShop(int index)
+        {
+            dataAccess.DeleteShop(index);
+        }
+
+        public void ClearAddresses()
+        {
+            dataAccess.ClearAddresses();
+        }
+
+        public void ClearShopTypes()
+        {
+            dataAccess.ClearShopTypes();
+        }
     }
 }

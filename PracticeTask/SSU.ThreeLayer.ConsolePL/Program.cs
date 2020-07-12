@@ -128,7 +128,7 @@ namespace SSU.ThreeLayer.ConsolePL
                     Console.Write("2. Profile: Change name" + Environment.NewLine);
                     Console.Write("3. Profile: Change info" + Environment.NewLine);
                     Console.Write("4. Profile: Change date of birth" + Environment.NewLine);
-                    Console.Write("10. Profile: Delete this profile" + Environment.NewLine);
+                    Console.Write("5. Profile: Delete this profile" + Environment.NewLine);
                     Console.Write("0. Return" + Environment.NewLine);
                     action = int.Parse(Console.ReadLine());
 
@@ -177,12 +177,16 @@ namespace SSU.ThreeLayer.ConsolePL
                             }
                             break;
 
-                        case 10:
+                        case 5:
                             {
-                                data.DeleteUser(user.Id);
-                                Console.WriteLine("Current user has been deleted. Press any key to exit.");
-                                Console.ReadKey();
-                                Environment.Exit(0);
+                                Console.WriteLine("Are you sure? (Write YES if so.)");
+                                if (Console.ReadLine() == "YES")
+                                {
+                                    data.DeleteUser(user.Id);
+                                    Console.WriteLine("Current user has been deleted. Press any key to exit.");
+                                    Console.ReadKey();
+                                    Environment.Exit(0);
+                                }
                             }
                             break;
                     }
@@ -289,6 +293,12 @@ namespace SSU.ThreeLayer.ConsolePL
                                 ProfileMenu(data);
                             }
                             break;
+
+                        case 7:
+                            {
+                                AdminMenu(data);
+                            }
+                            break;
                     }
                     Console.Clear();
                 }
@@ -311,6 +321,108 @@ namespace SSU.ThreeLayer.ConsolePL
             }
         }
 
+        static void AdminMenu(IBusinessLogic data)
+        {
+            int action = -1;
+
+            while (action != 0)
+            {
+                try
+                {
+                    Console.Write("Choose action:" + Environment.NewLine);
+                    Console.Write("1. Admin: Add shop" + Environment.NewLine);
+                    Console.Write("2. Admin: Remove shop from database" + Environment.NewLine);
+                    Console.Write("3. Admin: Remove user from database" + Environment.NewLine);
+                    Console.Write("4. Admin: Display all users in the database" + Environment.NewLine);
+                    Console.Write("5. Admin: Clear unused addresses" + Environment.NewLine);
+                    Console.Write("6. Admin: Clear unused shop types" + Environment.NewLine);
+                    Console.Write("0. Return" + Environment.NewLine);
+                    action = int.Parse(Console.ReadLine());
+
+                    Console.Clear();
+
+                    switch (action)
+                    {
+                        case 1:
+                            {
+                                Console.Write("Enter shop name: ");
+                                string name = Console.ReadLine();
+                                Console.Write("Enter shop type: ");
+                                string type = Console.ReadLine();
+                                Console.Write("Enter city (part of the address): ");
+                                string city = Console.ReadLine();
+                                Console.Write("Enter street (part of the address): ");
+                                string street = Console.ReadLine();
+                                Console.Write("Enter building (part of the address): ");
+                                string building = Console.ReadLine();
+                                data.AddShop(new Shop(name, type, city, street, building));
+                                Console.WriteLine("Success. New shop has been added.");
+                                Console.ReadKey();
+                            }
+                            break;
+
+                        case 2:
+                            {
+                                Console.Write("Enter database ID (number) of the shop to remove: ");
+                                int index = int.Parse(Console.ReadLine());
+                                data.DeleteShop(index);
+                                Console.WriteLine("Success. Shop with ID {0} has been removed (if it existed).", index);
+                                Console.ReadKey();
+                            }
+                            break;
+                        case 3:
+                            {
+                                Console.Write("Enter database ID (number) of the user to remove: ");
+                                int index = int.Parse(Console.ReadLine());
+                                data.DeleteUser(index);
+                                Console.WriteLine("Success. User with ID {0} has been removed (if it existed).", index);
+                                Console.ReadKey();
+                            }
+                            break;
+                        case 4:
+                            {
+                                DisplayUsers(data, data.GetAllUsers());
+                                Console.ReadKey();
+                            }
+                            break;
+                        case 5:
+                            {
+                                data.ClearAddresses();
+                                Console.WriteLine("Success. Unused addresses have been removed.");
+                                Console.ReadKey();
+                            }
+                            break;
+                        case 6:
+                            {
+                                data.ClearShopTypes();
+                                Console.WriteLine("Success. Unused shop types have been removed.");
+                                Console.ReadKey();
+                            }
+                            break;
+                    }
+
+                    Console.Clear();
+                }
+                catch (FormatException e)
+                {
+                    Console.Clear();
+                    Console.WriteLine(e.Message);
+                    Console.ReadKey();
+                    Console.Clear();
+                    continue;
+                }
+                catch (ArgumentException e)
+                {
+                    Console.Clear();
+                    Console.WriteLine(e.Message);
+                    Console.ReadKey();
+                    Console.Clear();
+                    continue;
+                }
+            }
+        }
+
+
         static void DisplayShops(IBusinessLogic data, List<Shop> shops)
         {
             foreach (Shop shop in shops)
@@ -318,6 +430,16 @@ namespace SSU.ThreeLayer.ConsolePL
                 string rating = data.GetShopRatingByIndex(shop.Id);
 
                 Console.WriteLine(shop.ToString() + Environment.NewLine + String.Format("   Rating: {0}", rating));
+
+                Console.WriteLine();
+            }
+        }
+
+        static void DisplayUsers(IBusinessLogic data, List<User> users)
+        {
+            foreach (User user in users)
+            {
+                Console.WriteLine(user.ToString());
 
                 Console.WriteLine();
             }

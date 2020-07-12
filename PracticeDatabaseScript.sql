@@ -85,3 +85,39 @@ AS
     SELECT @ShopRating = CAST(SUM(Rating) AS float)/COUNT(Rating) FROM Ratings WHERE ShopId = @ShopId
 RETURN  
 GO
+
+CREATE PROCEDURE HandleShopAddress
+@City varchar(255),
+@Street varchar(255),
+@Building varchar(10)
+AS
+DECLARE @Index AS int
+IF EXISTS(SELECT * FROM Addresses WHERE City = @City AND Street = @Street AND Building = @Building)
+    BEGIN  
+        SELECT @Index = Id FROM Addresses WHERE City = @City AND Street = @Street AND Building = @Building
+        RETURN @Index
+    END  
+ELSE  
+    BEGIN  
+        INSERT INTO Addresses(City, Street, Building) VALUES (@City, @Street, @Building)
+		SELECT @Index = Id FROM Addresses WHERE City = @City AND Street = @Street AND Building = @Building
+        RETURN @Index
+    END;  
+GO
+
+CREATE PROCEDURE HandleShopType
+@Name varchar(255)
+AS
+DECLARE @Index AS int
+IF EXISTS(SELECT * FROM ShopTypes WHERE Name = @Name)
+    BEGIN  
+        SELECT @Index = Id FROM ShopTypes WHERE Name = @Name
+        RETURN @Index
+    END  
+ELSE  
+    BEGIN  
+        INSERT INTO ShopTypes(Name) VALUES (@Name)
+		SELECT @Index = Id FROM ShopTypes WHERE Name = @Name
+        RETURN @Index
+    END;
+GO

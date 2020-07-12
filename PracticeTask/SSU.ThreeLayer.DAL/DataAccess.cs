@@ -615,5 +615,166 @@ namespace SSU.ThreeLayer.DAL
                 }
             }
         }
+
+        private int GetAddressId(string city, string street, string building)
+        {
+            using (var cnn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    cnn.Open();
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.CommandText = "HandleShopAddress";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Connection = cnn;
+
+                        SqlParameter CityPar = new SqlParameter("@City", SqlDbType.VarChar);
+                        CityPar.Value = city;
+                        command.Parameters.Add(CityPar);
+
+                        SqlParameter StreetPar = new SqlParameter("@Street", SqlDbType.VarChar);
+                        StreetPar.Value = street;
+                        command.Parameters.Add(StreetPar);
+
+                        SqlParameter BuildingPar = new SqlParameter("@Building", SqlDbType.VarChar);
+                        BuildingPar.Value = building;
+                        command.Parameters.Add(BuildingPar);
+
+                        SqlParameter Index = new SqlParameter("@ReturnVal", SqlDbType.Int);
+                        Index.Direction = ParameterDirection.ReturnValue;
+                        command.Parameters.Add(Index);
+
+                        command.ExecuteNonQuery();
+
+                        return (int)Index.Value;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException(e.Message);
+                }
+            }
+        }
+
+        private int GetShopTypeId(string typeName)
+        {
+            using (var cnn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    cnn.Open();
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.CommandText = "HandleShopType";
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Connection = cnn;
+
+                        SqlParameter Name = new SqlParameter("@Name", SqlDbType.VarChar);
+                        Name.Value = typeName;
+                        command.Parameters.Add(Name);
+
+                        SqlParameter Index = new SqlParameter("@ReturnVal", SqlDbType.Int);
+                        Index.Direction = ParameterDirection.ReturnValue;
+                        command.Parameters.Add(Index);
+
+                        command.ExecuteNonQuery();
+
+                        return (int)Index.Value;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException(e.Message);
+                }
+            }
+        }
+
+        public void AddShop(Shop shop)
+        {
+            int addressId = GetAddressId(shop.Address_City, shop.Address_Street, shop.Address_Building);
+            int typeId = GetShopTypeId(shop.Type);
+
+            using (var cnn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    cnn.Open();
+                    using (SqlCommand command = new SqlCommand()) // add shop type if needed
+                    {
+                        command.CommandText = "INSERT INTO Shops(Name, TypeId, AddressId) VALUES('" + shop.Name + "', "+ typeId + ", "+ addressId + ")";
+                        command.Connection = cnn;
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException(e.Message);
+                }
+            }
+        }
+
+        public void DeleteShop(int index)
+        {
+            using (var cnn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    cnn.Open();
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.CommandText = "DELETE FROM Shops WHERE Id = " + index + ";";
+                        command.Connection = cnn;
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException(e.Message);
+                }
+            }
+        }
+
+        public void ClearAddresses()
+        {
+            using (var cnn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    cnn.Open();
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.CommandText = "DELETE FROM Addresses WHERE NOT EXISTS (SELECT * FROM Shops WHERE Shops.AddressId = Addresses.Id);";
+                        command.Connection = cnn;
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException(e.Message);
+                }
+            }
+        }
+
+        public void ClearShopTypes()
+        {
+            using (var cnn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    cnn.Open();
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.CommandText = "DELETE FROM ShopTypes WHERE NOT EXISTS (SELECT * FROM Shops WHERE Shops.TypeId = ShopTypes.Id);";
+                        command.Connection = cnn;
+                        command.ExecuteNonQuery();
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw new ArgumentException(e.Message);
+                }
+            }
+        }
     }
 }
