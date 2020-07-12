@@ -42,7 +42,7 @@ namespace SSU.ThreeLayer.BLL
         #endregion
 
         private string separatorStr = " ";
-        private string outOfRangeStr = " - invalid or out of range values";
+        private string outOfRangeStr = "";
         private string appendStr = "Error: ";
 
         #region INDIVIDUALVALIDATORS
@@ -101,15 +101,15 @@ namespace SSU.ThreeLayer.BLL
         {
             string result = "";
 
-            if (!ShopsNameValidate(shop.Name)) result += separatorStr + "name";
+            if (!ShopsNameValidate(shop.Name)) result += separatorStr + string.Format("name (out of max ({0}) range or invalid syntax)", Shops_Name_MaxLength);
 
-            if (!ShopTypesNameValidate(shop.Type)) result += separatorStr + "type";
+            if (!ShopTypesNameValidate(shop.Type)) result += separatorStr + string.Format("type (out of max ({0}) range or invalid syntax)", ShopTypes_Name_MaxLength);
 
-            if (!AddressesCityValidate(shop.Address_City)) result += separatorStr + "city";
+            if (!AddressesCityValidate(shop.Address_City)) result += separatorStr + string.Format("city (out of max ({0}) range or invalid syntax)", Addresses_City_MaxLength);
 
-            if (!AddressesStreetValidate(shop.Address_Street)) result += separatorStr + "street";
+            if (!AddressesStreetValidate(shop.Address_Street)) result += separatorStr + string.Format("street (out of max ({0}) range or invalid syntax)", Addresses_Street_MaxLength);
 
-            if (!AddressesBuildingValidate(shop.Address_Building)) result += separatorStr + "building";
+            if (!AddressesBuildingValidate(shop.Address_Building)) result += separatorStr + string.Format("building (out of max ({0}) range or invalid syntax)", Addresses_Building_MaxLength);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }
@@ -118,13 +118,13 @@ namespace SSU.ThreeLayer.BLL
         {
             string result = "";
 
-            if (!UsersLoginValidate(user.Login)) result += separatorStr + "login";
+            if (!UsersLoginValidate(user.Login)) result += separatorStr + string.Format("login (out of max ({0}) range or invalid syntax)", Users_Login_MaxLength);
 
-            if (!UsersNameValidate(user.Name)) result += separatorStr + "name";
+            if (!UsersNameValidate(user.Name)) result += separatorStr + string.Format("name (out of max ({0}) range or invalid syntax)", Users_Name_MaxLength);
 
-            if (!UsersInfoValidate(user.Info)) result += separatorStr + "info";
+            if (!UsersInfoValidate(user.Info)) result += separatorStr + string.Format("info (out of max ({0}) range)", Users_Info_MaxLength);
 
-            if (!UsersNameValidate(user.Password)) result += separatorStr + "password";
+            if (!UsersNameValidate(user.Password)) result += separatorStr + string.Format("password (below min ({0}) range or invalid syntax)", Users_Password_MinLength);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }
@@ -138,7 +138,7 @@ namespace SSU.ThreeLayer.BLL
         {
             string result = "";
 
-            if (!UsersInfoValidate(newInfo)) result += separatorStr + "info";
+            if (!UsersInfoValidate(newInfo)) result += separatorStr + string.Format("info (out of max ({0}) range)", Users_Info_MaxLength);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }
@@ -147,7 +147,7 @@ namespace SSU.ThreeLayer.BLL
         {
             string result = "";
 
-            if (!UsersNameValidate(newName)) result += separatorStr + "name";
+            if (!UsersNameValidate(newName)) result += separatorStr + string.Format("name (out of max ({0}) range or invalid syntax)", Users_Name_MaxLength);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }
@@ -156,7 +156,7 @@ namespace SSU.ThreeLayer.BLL
         {
             string result = "";
 
-            if (!UsersInfoValidate(newPassword)) result += separatorStr + "password";
+            if (!UsersInfoValidate(newPassword)) result += separatorStr + string.Format("password (below min ({0}) range or invalid syntax)", Users_Password_MinLength);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }
@@ -175,9 +175,9 @@ namespace SSU.ThreeLayer.BLL
         {
             string result = "";
 
-            if (!AddressesCityValidate(city)) result += separatorStr + "city";
+            if (!AddressesCityValidate(city)) result += separatorStr + string.Format("city (out of max ({0}) range or invalid syntax)", Addresses_City_MaxLength);
 
-            if (!ShopTypesNameValidate(type)) result += separatorStr + "type";
+            if (!ShopTypesNameValidate(type)) result += separatorStr + string.Format("type (out of max ({0}) range or invalid syntax)", ShopTypes_Name_MaxLength);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }
@@ -186,7 +186,7 @@ namespace SSU.ThreeLayer.BLL
         {
             string result = "";
 
-            if (!AddressesCityValidate(city)) result += separatorStr + "city";
+            if (!AddressesCityValidate(city)) result += separatorStr + string.Format("city (out of max ({0}) range or invalid syntax)", Addresses_City_MaxLength);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }
@@ -195,7 +195,7 @@ namespace SSU.ThreeLayer.BLL
         {
             string result = "";
 
-            if (!ShopsNameValidate(shopName)) result += separatorStr + "name";
+            if (!ShopsNameValidate(shopName)) result += separatorStr + string.Format("name (out of max ({0}) range or invalid syntax)", Shops_Name_MaxLength);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }
@@ -209,7 +209,7 @@ namespace SSU.ThreeLayer.BLL
         {
             string result = "";
 
-            if (!ShopsNameValidate(shopName)) result += separatorStr + "name";
+            if (!ShopsNameValidate(shopName)) result += separatorStr + string.Format("name (out of max ({0}) range or invalid syntax)", Shops_Name_MaxLength);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }
@@ -228,7 +228,7 @@ namespace SSU.ThreeLayer.BLL
         {
             string result = "";
 
-            if (!UsersLoginValidate(login)) result += separatorStr + "login";
+            if (!UsersLoginValidate(login)) result += separatorStr + string.Format("login (out of max ({0}) range or invalid syntax)", Users_Login_MaxLength);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }
@@ -237,9 +237,9 @@ namespace SSU.ThreeLayer.BLL
         {
             string result = "";
 
-            if (!UsersLoginValidate(login)) result += separatorStr + "login";
+            if (!UsersLoginValidate(login)) result += separatorStr + string.Format("login (out of max ({0}) range or invalid syntax)", Users_Login_MaxLength);
 
-            if (!UsersPasswordValidate(password)) result += separatorStr + "password";
+            if (!UsersPasswordValidate(password)) result += separatorStr + string.Format("password (below min ({0}) range or invalid syntax)", Users_Password_MinLength);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }
@@ -248,7 +248,7 @@ namespace SSU.ThreeLayer.BLL
         {
             string result = "";
 
-            if (!RatingsRatingValidate(rating)) result += separatorStr + "rating";
+            if (!RatingsRatingValidate(rating)) result += separatorStr + string.Format("rating (out of range ({0}-{1}) or invalid syntax)", Ratings_Rating_MinValue, Ratings_Rating_MaxValue);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }
