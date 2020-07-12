@@ -8,7 +8,8 @@ namespace SSU.ThreeLayer.ConsolePL
 {
     class Program
     {
-        private static IBusinessLogic data = DependencyResolver.BusinessLogic;
+        private static IShopBusinessLogic shopData = DependencyResolver.ShopBusinessLogic;
+        private static IUserBusinessLogic userData = DependencyResolver.UserBusinessLogic;
 
         private static void Main(string[] args)
         {
@@ -26,62 +27,87 @@ namespace SSU.ThreeLayer.ConsolePL
 
             while (action != 0)
             {
-                Console.WriteLine("You have to log in first:");
-                Console.WriteLine("1. Log in");
-                Console.WriteLine("2. Create Account");
-                Console.WriteLine("0. Exit");
-                action = int.Parse(Console.ReadLine());
-
-                Console.Clear();
-
-                switch (action)
+                try
                 {
-                    case 1:
-                        Console.Write("Enter login: ");
-                        string login = Console.ReadLine();
-                        Console.Write("Enter password: ");
-                        string password = Console.ReadLine();
+                    Console.WriteLine("You have to log in first:");
+                    Console.WriteLine("1. Log in");
+                    Console.WriteLine("2. Create Account");
+                    Console.WriteLine("0. Exit");
+                    action = int.Parse(Console.ReadLine());
 
-                        if (!data.LogIn(login, password))
-                        {
-                            Console.WriteLine("Incorrect login or password!");
-                            Console.ReadKey();
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Success. Welcome, {0}", data.GetCurrentUser().Name);
+                    Console.Clear();
+
+                    switch (action)
+                    {
+                        case 1:
+                            Console.Write("Enter login: ");
+                            string login = Console.ReadLine();
+                            Console.Write("Enter password: ");
+                            string password = Console.ReadLine();
+
+                            if (!userData.LogIn(login, password))
+                            {
+                                Console.WriteLine("Incorrect login or password!");
+                                Console.ReadKey();
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Success. Welcome, {0}", userData.GetCurrentUser().Name);
+                                Console.ReadKey();
+                                Console.Clear();
+                                return true;
+                            }
+
+
+                        case 2:
+                            Console.Write("Enter new login: ");
+                            string newLogin = Console.ReadLine();
+                            Console.Write("Enter new password (at least {0} symbols): ", User.PasswordMinLength);
+                            string newPassword = Console.ReadLine();
+                            Console.Write("Enter new name: ");
+                            string newName = Console.ReadLine();
+                            Console.Write("Enter year of birth: ");
+                            int yearOfBirth = int.Parse(Console.ReadLine());
+                            Console.Write("Enter month of birth: ");
+                            int monthOfBirth = int.Parse(Console.ReadLine());
+                            Console.Write("Enter day of birth: ");
+                            int dayOfBirth = int.Parse(Console.ReadLine());
+                            Console.Write("Write something about yourself (optional): ");
+                            string newInfo = Console.ReadLine();
+
+                            userData.AddUser(new User(newLogin, newPassword, newName, new DateTime(yearOfBirth, monthOfBirth, dayOfBirth), newInfo));
+                            userData.LogIn(newLogin, newPassword);
+
+                            Console.WriteLine("New user has been created!");
                             Console.ReadKey();
                             Console.Clear();
                             return true;
-                        }
-
-
-                    case 2:
-                        Console.Write("Enter new login: ");
-                        string newLogin = Console.ReadLine();
-                        Console.Write("Enter new password (at least {0} symbols): ", User.PasswordMinLength);
-                        string newPassword = Console.ReadLine();
-                        Console.Write("Enter new name: ");
-                        string newName = Console.ReadLine();
-                        Console.Write("Enter year of birth: ");
-                        int yearOfBirth = int.Parse(Console.ReadLine());
-                        Console.Write("Enter month of birth: ");
-                        int monthOfBirth = int.Parse(Console.ReadLine());
-                        Console.Write("Enter day of birth: ");
-                        int dayOfBirth = int.Parse(Console.ReadLine());
-                        Console.Write("Write something about yourself (optional): ");
-                        string newInfo = Console.ReadLine();
-
-                        data.AddUser(new User(newLogin, newPassword, newName, new DateTime(yearOfBirth, monthOfBirth, dayOfBirth), newInfo));
-                        data.LogIn(newLogin, newPassword);
-
-                        Console.WriteLine("New user has been created!");
-                        Console.ReadKey();
-                        Console.Clear();
-                        return true;
+                    }
+                    Console.Clear();
                 }
-                Console.Clear();
+                catch (FormatException e)
+                {
+                    Console.Clear();
+                    Console.WriteLine(e.Message);
+                    Console.ReadKey();
+                    Console.Clear();
+                    continue;
+                }
+                catch (System.Data.SqlClient.SqlException e)
+                {
+                    Console.Clear();
+                    Console.WriteLine(e.Message);
+                    Console.ReadKey();
+                    Console.Clear();
+                    continue;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("FATAL ERROR: {0}", e.Message);
+                    Console.ReadKey();
+                    Environment.Exit(1);
+                }
             }
 
             return false;
@@ -89,7 +115,7 @@ namespace SSU.ThreeLayer.ConsolePL
 
         private static void StartProfileMenu()
         {
-            User user = data.GetCurrentUser();
+            User user = userData.GetCurrentUser();
 
             int action = -1;
 
@@ -154,7 +180,7 @@ namespace SSU.ThreeLayer.ConsolePL
             Console.WriteLine("Are you sure? (Write YES if so.)");
             if (Console.ReadLine() == "YES")
             {
-                data.DeleteUser(user.Id);
+                userData.DeleteUser(user.Id);
                 Console.WriteLine("Current user has been deleted. Press any key to exit.");
                 Console.ReadKey();
                 Environment.Exit(0);
@@ -169,7 +195,7 @@ namespace SSU.ThreeLayer.ConsolePL
             int monthOfBirth = int.Parse(Console.ReadLine());
             Console.Write("Enter new day of birth: ");
             int dayOfBirth = int.Parse(Console.ReadLine());
-            data.ChangeCurrentUserDateOfBirth(new DateTime(yearOfBirth, monthOfBirth, dayOfBirth));
+            userData.ChangeCurrentUserDateOfBirth(new DateTime(yearOfBirth, monthOfBirth, dayOfBirth));
             Console.WriteLine("Success. Date of birth has been updated.");
             Console.ReadKey();
         }
@@ -177,7 +203,7 @@ namespace SSU.ThreeLayer.ConsolePL
         private static void ChangeInfo()
         {
             Console.Write("Write something new about yourself: ");
-            data.ChangeCurrentUserInfo(Console.ReadLine());
+            userData.ChangeCurrentUserInfo(Console.ReadLine());
             Console.WriteLine("Success. Information has been updated.");
             Console.ReadKey();
         }
@@ -185,7 +211,7 @@ namespace SSU.ThreeLayer.ConsolePL
         private static void ChangeName()
         {
             Console.Write("Enter new name: ");
-            data.ChangeCurrentUserName(Console.ReadLine());
+            userData.ChangeCurrentUserName(Console.ReadLine());
             Console.WriteLine("Success. Name has been updated.");
             Console.ReadKey();
         }
@@ -193,7 +219,7 @@ namespace SSU.ThreeLayer.ConsolePL
         private static void ChangePassword()
         {
             Console.Write("Enter new password (at least {0} symbols): ", User.PasswordMinLength);
-            data.ChangeCurrentUserPassword(Console.ReadLine());
+            userData.ChangeCurrentUserPassword(Console.ReadLine());
             Console.WriteLine("Success. Password has been updated.");
             Console.ReadKey();
         }
@@ -214,7 +240,7 @@ namespace SSU.ThreeLayer.ConsolePL
                     Console.WriteLine("5. Rate a shop or update your rating (locate shop number first by using options above)");
                     Console.WriteLine("6. Go to profile settings");
 
-                    if (data.GetCurrentUser().IsAdmin)
+                    if (userData.GetCurrentUser().IsAdmin)
                     {
                         Console.WriteLine("7. Admin options...");
                     }
@@ -246,7 +272,7 @@ namespace SSU.ThreeLayer.ConsolePL
 
                         case 4:
                             {
-                                DisplayShops(data.GetAllShops());
+                                DisplayShops(shopData.GetAllShops());
                                 Console.ReadKey();
                             }
                             break;
@@ -279,13 +305,19 @@ namespace SSU.ThreeLayer.ConsolePL
                     Console.Clear();
                     continue;
                 }
-                catch (ArgumentException e)
+                catch (System.Data.SqlClient.SqlException e)
                 {
                     Console.Clear();
                     Console.WriteLine(e.Message);
                     Console.ReadKey();
                     Console.Clear();
                     continue;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("FATAL ERROR: {0}", e.Message);
+                    Console.ReadKey();
+                    Environment.Exit(1);
                 }
             }
         }
@@ -296,7 +328,7 @@ namespace SSU.ThreeLayer.ConsolePL
             int shopId = int.Parse(Console.ReadLine());
             Console.Write("Enter the rating (1-{0}): ", Shop.MaxRating);
             int rating = int.Parse(Console.ReadLine());
-            data.RateShop(shopId, rating);
+            userData.RateShop(shopId, rating);
             Console.WriteLine("Success.");
             Console.ReadKey();
         }
@@ -307,7 +339,7 @@ namespace SSU.ThreeLayer.ConsolePL
             string city = Console.ReadLine();
             Console.Write("Enter shop type: ");
             string type = Console.ReadLine();
-            DisplayShops(data.FindShopsByCityAndType(city, type));
+            DisplayShops(shopData.FindShopsByCityAndType(city, type));
             Console.ReadKey();
         }
 
@@ -315,7 +347,7 @@ namespace SSU.ThreeLayer.ConsolePL
         {
             Console.Write("Enter city: ");
             string city = Console.ReadLine();
-            DisplayShops(data.FindShopsByCity(city));
+            DisplayShops(shopData.FindShopsByCity(city));
             Console.ReadKey();
         }
 
@@ -323,7 +355,7 @@ namespace SSU.ThreeLayer.ConsolePL
         {
             Console.Write("Enter shop(s) name: ");
             string name = Console.ReadLine();
-            DisplayShops(data.FindShopsByName(name));
+            DisplayShops(shopData.FindShopsByName(name));
             Console.ReadKey();
         }
 
@@ -365,7 +397,7 @@ namespace SSU.ThreeLayer.ConsolePL
                         break;
                     case 4:
                         {
-                            DisplayUsers(data.GetAllUsers());
+                            DisplayUsers(userData.GetAllUsers());
                             Console.ReadKey();
                         }
                         break;
@@ -387,14 +419,14 @@ namespace SSU.ThreeLayer.ConsolePL
 
         private static void ClearShopTypes()
         {
-            data.ClearShopTypes();
+            shopData.ClearShopTypes();
             Console.WriteLine("Success. Unused shop types have been removed.");
             Console.ReadKey();
         }
 
         private static void ClearAddresses()
         {
-            data.ClearAddresses();
+            shopData.ClearAddresses();
             Console.WriteLine("Success. Unused addresses have been removed.");
             Console.ReadKey();
         }
@@ -403,7 +435,7 @@ namespace SSU.ThreeLayer.ConsolePL
         {
             Console.Write("Enter database ID (number) of the user to remove: ");
             int index = int.Parse(Console.ReadLine());
-            data.DeleteUser(index);
+            userData.DeleteUser(index);
             Console.WriteLine("Success. User with ID {0} has been removed (if it existed).", index);
             Console.ReadKey();
         }
@@ -412,7 +444,7 @@ namespace SSU.ThreeLayer.ConsolePL
         {
             Console.Write("Enter database ID (number) of the shop to remove: ");
             int index = int.Parse(Console.ReadLine());
-            data.DeleteShop(index);
+            shopData.DeleteShop(index);
             Console.WriteLine("Success. Shop with ID {0} has been removed (if it existed).", index);
             Console.ReadKey();
         }
@@ -429,7 +461,7 @@ namespace SSU.ThreeLayer.ConsolePL
             string street = Console.ReadLine();
             Console.Write("Enter building (part of the address): ");
             string building = Console.ReadLine();
-            data.AddShop(new Shop(name, type, city, street, building));
+            shopData.AddShop(new Shop(name, type, city, street, building));
             Console.WriteLine("Success. New shop has been added.");
             Console.ReadKey();
         }
@@ -438,7 +470,7 @@ namespace SSU.ThreeLayer.ConsolePL
         {
             foreach (Shop shop in shops)
             {
-                string rating = data.GetShopRatingByIndex(shop.Id);
+                string rating = shopData.GetShopRatingByIndex(shop.Id);
 
                 Console.WriteLine(shop.ToString() + Environment.NewLine + String.Format("   Rating: {0}", rating));
 

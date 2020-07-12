@@ -14,34 +14,27 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
+                    command.CommandText = "SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id";
+                    command.Connection = cnn;
+
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        command.CommandText = "SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id";
-                        command.Connection = cnn;
+                        List<Shop> shops = new List<Shop>();
 
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        if (reader.HasRows) // если есть данные
                         {
-                            List<Shop> shops = new List<Shop>();
-
-                            if (reader.HasRows) // если есть данные
+                            while (reader.Read()) // построчно считываем данные
                             {
-                                while (reader.Read()) // построчно считываем данные
-                                {
-                                    Shop temp = new Shop(reader.GetInt32(0), reader.GetString(1), reader.GetString(5), reader.GetString(7), reader.GetString(8), reader.GetString(9));
-                                    shops.Add(temp);
-                                }
+                                Shop temp = new Shop(reader.GetInt32(0), reader.GetString(1), reader.GetString(5), reader.GetString(7), reader.GetString(8), reader.GetString(9));
+                                shops.Add(temp);
                             }
-
-                            return shops;
                         }
+
+                        return shops;
                     }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
                 }
             }
         }
@@ -50,31 +43,24 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = "GetShopRatingById";
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Connection = cnn;
+                    command.CommandText = "GetShopRatingById";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Connection = cnn;
 
-                        SqlParameter ShopId = new SqlParameter("@ShopId", SqlDbType.Int);
-                        ShopId.Value = index;
-                        command.Parameters.Add(ShopId);
+                    SqlParameter ShopId = new SqlParameter("@ShopId", SqlDbType.Int);
+                    ShopId.Value = index;
+                    command.Parameters.Add(ShopId);
 
-                        SqlParameter ShopRating = new SqlParameter("@ShopRating", SqlDbType.Float);
-                        ShopRating.Direction = ParameterDirection.Output;
-                        command.Parameters.Add(ShopRating);
+                    SqlParameter ShopRating = new SqlParameter("@ShopRating", SqlDbType.Float);
+                    ShopRating.Direction = ParameterDirection.Output;
+                    command.Parameters.Add(ShopRating);
 
-                        command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
 
-                        return ShopRating.Value.ToString();
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    return ShopRating.Value.ToString();
                 }
             }
         }
@@ -83,31 +69,24 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = "GetShopRatingByName";
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Connection = cnn;
+                    command.CommandText = "GetShopRatingByName";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Connection = cnn;
 
-                        SqlParameter ShopName = new SqlParameter("@ShopName", SqlDbType.VarChar);
-                        ShopName.Value = shopName;
-                        command.Parameters.Add(ShopName);
+                    SqlParameter ShopName = new SqlParameter("@ShopName", SqlDbType.VarChar);
+                    ShopName.Value = shopName;
+                    command.Parameters.Add(ShopName);
 
-                        SqlParameter ShopRating = new SqlParameter("@ShopRating", SqlDbType.Float);
-                        ShopRating.Direction = ParameterDirection.Output;
-                        command.Parameters.Add(ShopRating);
+                    SqlParameter ShopRating = new SqlParameter("@ShopRating", SqlDbType.Float);
+                    ShopRating.Direction = ParameterDirection.Output;
+                    command.Parameters.Add(ShopRating);
 
-                        command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
 
-                        return ShopRating.Value.ToString();
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    return ShopRating.Value.ToString();
                 }
             }
         }
@@ -116,23 +95,16 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
+                    command.CommandText = "SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id";
+                    command.Connection = cnn;
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        command.CommandText = "SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id";
-                        command.Connection = cnn;
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            reader.Read();
-                            return new Shop(reader.GetInt32(0), reader.GetString(1), reader.GetString(5), reader.GetString(7), reader.GetString(8), reader.GetString(9));
-                        }
+                        reader.Read();
+                        return new Shop(reader.GetInt32(0), reader.GetString(1), reader.GetString(5), reader.GetString(7), reader.GetString(8), reader.GetString(9));
                     }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
                 }
             }
         }
@@ -141,33 +113,26 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
+                    command.CommandText = String.Format("SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id WHERE Shops.Name = '{0}'", shopName);
+                    command.Connection = cnn;
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        command.CommandText = String.Format("SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id WHERE Shops.Name = '{0}'", shopName);
-                        command.Connection = cnn;
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        List<Shop> shops = new List<Shop>();
+
+                        if (reader.HasRows) // если есть данные
                         {
-                            List<Shop> shops = new List<Shop>();
-
-                            if (reader.HasRows) // если есть данные
+                            while (reader.Read()) // построчно считываем данные
                             {
-                                while (reader.Read()) // построчно считываем данные
-                                {
-                                    Shop temp = new Shop(reader.GetInt32(0), reader.GetString(1), reader.GetString(5), reader.GetString(7), reader.GetString(8), reader.GetString(9));
-                                    shops.Add(temp);
-                                }
+                                Shop temp = new Shop(reader.GetInt32(0), reader.GetString(1), reader.GetString(5), reader.GetString(7), reader.GetString(8), reader.GetString(9));
+                                shops.Add(temp);
                             }
-
-                            return shops;
                         }
+
+                        return shops;
                     }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
                 }
             }
         }
@@ -176,33 +141,26 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
+                    command.CommandText = String.Format("SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id WHERE Addresses.City = '{0}'", city);
+                    command.Connection = cnn;
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        command.CommandText = String.Format("SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id WHERE Addresses.City = '{0}'", city);
-                        command.Connection = cnn;
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        List<Shop> shops = new List<Shop>();
+
+                        if (reader.HasRows) // если есть данные
                         {
-                            List<Shop> shops = new List<Shop>();
-
-                            if (reader.HasRows) // если есть данные
+                            while (reader.Read()) // построчно считываем данные
                             {
-                                while (reader.Read()) // построчно считываем данные
-                                {
-                                    Shop temp = new Shop(reader.GetInt32(0), reader.GetString(1), reader.GetString(5), reader.GetString(7), reader.GetString(8), reader.GetString(9));
-                                    shops.Add(temp);
-                                }
+                                Shop temp = new Shop(reader.GetInt32(0), reader.GetString(1), reader.GetString(5), reader.GetString(7), reader.GetString(8), reader.GetString(9));
+                                shops.Add(temp);
                             }
-
-                            return shops;
                         }
+
+                        return shops;
                     }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
                 }
             }
         }
@@ -211,33 +169,26 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
+                    command.CommandText = String.Format("SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id WHERE (Addresses.City = '{0}' AND ShopTypes.Name = '{1}')", city, type);
+                    command.Connection = cnn;
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        command.CommandText = String.Format("SELECT * FROM Shops INNER JOIN ShopTypes ON Shops.TypeId = ShopTypes.Id INNER JOIN Addresses ON Shops.AddressId = Addresses.Id WHERE (Addresses.City = '{0}' AND ShopTypes.Name = '{1}')", city, type);
-                        command.Connection = cnn;
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        List<Shop> shops = new List<Shop>();
+
+                        if (reader.HasRows) // если есть данные
                         {
-                            List<Shop> shops = new List<Shop>();
-
-                            if (reader.HasRows) // если есть данные
+                            while (reader.Read()) // построчно считываем данные
                             {
-                                while (reader.Read()) // построчно считываем данные
-                                {
-                                    Shop temp = new Shop(reader.GetInt32(0), reader.GetString(1), reader.GetString(5), reader.GetString(7), reader.GetString(8), reader.GetString(9));
-                                    shops.Add(temp);
-                                }
+                                Shop temp = new Shop(reader.GetInt32(0), reader.GetString(1), reader.GetString(5), reader.GetString(7), reader.GetString(8), reader.GetString(9));
+                                shops.Add(temp);
                             }
-
-                            return shops;
                         }
+
+                        return shops;
                     }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
                 }
             }
         }
@@ -246,39 +197,32 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = "HandleShopAddress";
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Connection = cnn;
+                    command.CommandText = "HandleShopAddress";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Connection = cnn;
 
-                        SqlParameter CityPar = new SqlParameter("@City", SqlDbType.VarChar);
-                        CityPar.Value = city;
-                        command.Parameters.Add(CityPar);
+                    SqlParameter CityPar = new SqlParameter("@City", SqlDbType.VarChar);
+                    CityPar.Value = city;
+                    command.Parameters.Add(CityPar);
 
-                        SqlParameter StreetPar = new SqlParameter("@Street", SqlDbType.VarChar);
-                        StreetPar.Value = street;
-                        command.Parameters.Add(StreetPar);
+                    SqlParameter StreetPar = new SqlParameter("@Street", SqlDbType.VarChar);
+                    StreetPar.Value = street;
+                    command.Parameters.Add(StreetPar);
 
-                        SqlParameter BuildingPar = new SqlParameter("@Building", SqlDbType.VarChar);
-                        BuildingPar.Value = building;
-                        command.Parameters.Add(BuildingPar);
+                    SqlParameter BuildingPar = new SqlParameter("@Building", SqlDbType.VarChar);
+                    BuildingPar.Value = building;
+                    command.Parameters.Add(BuildingPar);
 
-                        SqlParameter Index = new SqlParameter("@ReturnVal", SqlDbType.Int);
-                        Index.Direction = ParameterDirection.ReturnValue;
-                        command.Parameters.Add(Index);
+                    SqlParameter Index = new SqlParameter("@ReturnVal", SqlDbType.Int);
+                    Index.Direction = ParameterDirection.ReturnValue;
+                    command.Parameters.Add(Index);
 
-                        command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
 
-                        return (int)Index.Value;
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    return (int)Index.Value;
                 }
             }
         }
@@ -287,31 +231,24 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = "HandleShopType";
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Connection = cnn;
+                    command.CommandText = "HandleShopType";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Connection = cnn;
 
-                        SqlParameter Name = new SqlParameter("@Name", SqlDbType.VarChar);
-                        Name.Value = typeName;
-                        command.Parameters.Add(Name);
+                    SqlParameter Name = new SqlParameter("@Name", SqlDbType.VarChar);
+                    Name.Value = typeName;
+                    command.Parameters.Add(Name);
 
-                        SqlParameter Index = new SqlParameter("@ReturnVal", SqlDbType.Int);
-                        Index.Direction = ParameterDirection.ReturnValue;
-                        command.Parameters.Add(Index);
+                    SqlParameter Index = new SqlParameter("@ReturnVal", SqlDbType.Int);
+                    Index.Direction = ParameterDirection.ReturnValue;
+                    command.Parameters.Add(Index);
 
-                        command.ExecuteNonQuery();
+                    command.ExecuteNonQuery();
 
-                        return (int)Index.Value;
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    return (int)Index.Value;
                 }
             }
         }
@@ -323,19 +260,12 @@ namespace SSU.ThreeLayer.DAL
 
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand()) // add shop type if needed
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand()) // add shop type if needed
-                    {
-                        command.CommandText = String.Format("INSERT INTO Shops(Name, TypeId, AddressId) VALUES('{0}', {1}, {2})", shop.Name, typeId, addressId);
-                        command.Connection = cnn;
-                        command.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    command.CommandText = String.Format("INSERT INTO Shops(Name, TypeId, AddressId) VALUES('{0}', {1}, {2})", shop.Name, typeId, addressId);
+                    command.Connection = cnn;
+                    command.ExecuteNonQuery();
                 }
             }
         }
@@ -344,19 +274,12 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = String.Format("DELETE FROM Shops WHERE Id = {0};", index);
-                        command.Connection = cnn;
-                        command.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    command.CommandText = String.Format("DELETE FROM Shops WHERE Id = {0};", index);
+                    command.Connection = cnn;
+                    command.ExecuteNonQuery();
                 }
             }
         }
@@ -365,19 +288,12 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = "DELETE FROM Addresses WHERE NOT EXISTS (SELECT * FROM Shops WHERE Shops.AddressId = Addresses.Id);";
-                        command.Connection = cnn;
-                        command.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    command.CommandText = "DELETE FROM Addresses WHERE NOT EXISTS (SELECT * FROM Shops WHERE Shops.AddressId = Addresses.Id);";
+                    command.Connection = cnn;
+                    command.ExecuteNonQuery();
                 }
             }
         }
@@ -386,19 +302,12 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = "DELETE FROM ShopTypes WHERE NOT EXISTS (SELECT * FROM Shops WHERE Shops.TypeId = ShopTypes.Id);";
-                        command.Connection = cnn;
-                        command.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    command.CommandText = "DELETE FROM ShopTypes WHERE NOT EXISTS (SELECT * FROM Shops WHERE Shops.TypeId = ShopTypes.Id);";
+                    command.Connection = cnn;
+                    command.ExecuteNonQuery();
                 }
             }
         }

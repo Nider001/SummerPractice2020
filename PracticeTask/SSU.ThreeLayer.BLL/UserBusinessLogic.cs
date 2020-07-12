@@ -4,14 +4,12 @@ using System.Collections.Generic;
 
 namespace SSU.ThreeLayer.BLL
 {
-    public class BusinessLogic : IBusinessLogic
+    public class UserBusinessLogic : IUserBusinessLogic
     {
-        private IShopAccess shopAccess;
         private IUserAccess userAccess;
 
-        public BusinessLogic(IShopAccess shopAccess, IUserAccess userAccess)
+        public UserBusinessLogic(IUserAccess userAccess)
         {
-            this.shopAccess = shopAccess;
             this.userAccess = userAccess;
         }
 
@@ -62,24 +60,9 @@ namespace SSU.ThreeLayer.BLL
             userAccess.DeleteUser(index);
         }
 
-        public List<Shop> GetAllShops()
-        {
-            return shopAccess.GetAllShops();
-        }
-
         public List<User> GetAllUsers()
         {
             return userAccess.GetAllUsers();
-        }
-
-        public string GetShopRatingByIndex(int index)
-        {
-            return shopAccess.GetShopRatingByIndex(index);
-        }
-
-        public string GetShopRatingByName(string shopName)
-        {
-            return shopAccess.GetShopRatingByName(shopName);
         }
 
         public bool LogIn(string login, string password)
@@ -97,49 +80,9 @@ namespace SSU.ThreeLayer.BLL
             return userAccess.GetUser(login);
         }
 
-        public Shop GetShop(int index)
-        {
-            return shopAccess.GetShop(index);
-        }
-
-        public List<Shop> FindShopsByName(string shopName)
-        {
-            return shopAccess.FindShopsByName(shopName);
-        }
-
-        public List<Shop> FindShopsByCity(string city)
-        {
-            return shopAccess.FindShopsByCity(city);
-        }
-
-        public List<Shop> FindShopsByCityAndType(string city, string type)
-        {
-            return shopAccess.FindShopsByCityAndType(city, type);
-        }
-
         public void RateShop(int shopId, int rating)
         {
             userAccess.RateShop(shopId, rating);
-        }
-
-        public void AddShop(Shop shop)
-        {
-            shopAccess.AddShop(shop);
-        }
-
-        public void DeleteShop(int index)
-        {
-            shopAccess.DeleteShop(index);
-        }
-
-        public void ClearAddresses()
-        {
-            shopAccess.ClearAddresses();
-        }
-
-        public void ClearShopTypes()
-        {
-            shopAccess.ClearShopTypes();
         }
     }
 }

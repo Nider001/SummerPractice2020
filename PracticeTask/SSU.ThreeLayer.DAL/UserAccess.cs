@@ -37,10 +37,6 @@ namespace SSU.ThreeLayer.DAL
                         throw new ArgumentException("This login is already occupied.");
                     }
                 }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
-                }
             }
         }
 
@@ -48,21 +44,14 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = String.Format("UPDATE Users SET DateOfBirth = '{0}' WHERE Login = '{1}';", newDate.ToString("yyyy-MM-dd"), currentUser.Login);
-                        command.Connection = cnn;
-                        command.ExecuteNonQuery();
+                    command.CommandText = String.Format("UPDATE Users SET DateOfBirth = '{0}' WHERE Login = '{1}';", newDate.ToString("yyyy-MM-dd"), currentUser.Login);
+                    command.Connection = cnn;
+                    command.ExecuteNonQuery();
 
-                        currentUser.DateOfBirth = newDate;
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    currentUser.DateOfBirth = newDate;
                 }
             }
         }
@@ -71,21 +60,14 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = String.Format("UPDATE Users SET Info = {0} WHERE Login = '{1}';", (newInfo.Length != 0 ? String.Format("'{0}'", newInfo) : "NULL"), currentUser.Login);
-                        command.Connection = cnn;
-                        command.ExecuteNonQuery();
+                    command.CommandText = String.Format("UPDATE Users SET Info = {0} WHERE Login = '{1}';", (newInfo.Length != 0 ? String.Format("'{0}'", newInfo) : "NULL"), currentUser.Login);
+                    command.Connection = cnn;
+                    command.ExecuteNonQuery();
 
-                        currentUser.Info = newInfo;
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    currentUser.Info = newInfo;
                 }
             }
         }
@@ -94,21 +76,14 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = String.Format("UPDATE Users SET Name = '{0}' WHERE Login = '{1}';", newName, currentUser.Login);
-                        command.Connection = cnn;
-                        command.ExecuteNonQuery();
+                    command.CommandText = String.Format("UPDATE Users SET Name = '{0}' WHERE Login = '{1}';", newName, currentUser.Login);
+                    command.Connection = cnn;
+                    command.ExecuteNonQuery();
 
-                        currentUser.Name = newName;
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    currentUser.Name = newName;
                 }
             }
         }
@@ -117,21 +92,14 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = String.Format("UPDATE Users SET HashPassword = 0x{0} WHERE Login = '{1}';", passwordHashStr, currentUser.Login);
-                        command.Connection = cnn;
-                        command.ExecuteNonQuery();
-                    }
-                    currentUser.Password = newPassword;
+                    command.CommandText = String.Format("UPDATE Users SET HashPassword = 0x{0} WHERE Login = '{1}';", passwordHashStr, currentUser.Login);
+                    command.Connection = cnn;
+                    command.ExecuteNonQuery();
                 }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
-                }
+                currentUser.Password = newPassword;
             }
         }
 
@@ -139,19 +107,12 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = String.Format("DELETE FROM Users WHERE Id = {0};", index);
-                        command.Connection = cnn;
-                        command.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    command.CommandText = String.Format("DELETE FROM Users WHERE Id = {0};", index);
+                    command.Connection = cnn;
+                    command.ExecuteNonQuery();
                 }
             }
         }
@@ -160,34 +121,27 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
+                    command.CommandText = "SELECT * FROM Users";
+                    command.Connection = cnn;
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        command.CommandText = "SELECT * FROM Users";
-                        command.Connection = cnn;
-                        using (SqlDataReader reader = command.ExecuteReader())
+
+                        List<User> users = new List<User>();
+
+                        if (reader.HasRows) // если есть данные
                         {
-
-                            List<User> users = new List<User>();
-
-                            if (reader.HasRows) // если есть данные
+                            while (reader.Read()) // построчно считываем данные
                             {
-                                while (reader.Read()) // построчно считываем данные
-                                {
-                                    User temp = new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(3), reader.GetDateTime(4), reader.IsDBNull(5) ? "" : reader.GetString(5), reader.GetBoolean(6));
-                                    users.Add(temp);
-                                }
+                                User temp = new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(3), reader.GetDateTime(4), reader.IsDBNull(5) ? "" : reader.GetString(5), reader.GetBoolean(6));
+                                users.Add(temp);
                             }
-
-                            return users;
                         }
+
+                        return users;
                     }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
                 }
             }
         }
@@ -201,41 +155,34 @@ namespace SSU.ThreeLayer.DAL
 
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                bool result = false;
+                int hash = password.GetHashCode();
+
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    bool result = false;
-                    int hash = password.GetHashCode();
-
-                    using (SqlCommand command = new SqlCommand())
+                    command.CommandText = String.Format("SELECT * FROM Users WHERE (Login = '{0}')", login);
+                    command.Connection = cnn;
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        command.CommandText = String.Format("SELECT * FROM Users WHERE (Login = '{0}')", login);
-                        command.Connection = cnn;
-                        using (SqlDataReader reader = command.ExecuteReader())
+                        if (reader.HasRows) // если есть данные
                         {
-                            if (reader.HasRows) // если есть данные
+                            while (reader.Read()) // построчно считываем данные
                             {
-                                while (reader.Read()) // построчно считываем данные
-                                {
-                                    byte[] t = new byte[4];
-                                    reader.GetBytes(2, 0, t, 0, 4);
+                                byte[] t = new byte[4];
+                                reader.GetBytes(2, 0, t, 0, 4);
 
-                                    if (hash == BitConverter.ToInt32(t, 0))
-                                    {
-                                        result = true;
-                                        currentUser = new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(3), reader.GetDateTime(4), reader.IsDBNull(5) ? "" : reader.GetString(5), reader.GetBoolean(6));
-                                        break;
-                                    }
+                                if (hash == BitConverter.ToInt32(t, 0))
+                                {
+                                    result = true;
+                                    currentUser = new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(3), reader.GetDateTime(4), reader.IsDBNull(5) ? "" : reader.GetString(5), reader.GetBoolean(6));
+                                    break;
                                 }
                             }
-
-                            return result;
                         }
+
+                        return result;
                     }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
                 }
             }
         }
@@ -244,23 +191,16 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
+                    command.CommandText = String.Format("SELECT * FROM Users WHERE (Users.Id = {0})", index);
+                    command.Connection = cnn;
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        command.CommandText = String.Format("SELECT * FROM Users WHERE (Users.Id = {0})", index);
-                        command.Connection = cnn;
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            reader.Read();
-                            return new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(3), reader.GetDateTime(4), reader.IsDBNull(5) ? "" : reader.GetString(5), reader.GetBoolean(6));
-                        }
+                        reader.Read();
+                        return new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(3), reader.GetDateTime(4), reader.IsDBNull(5) ? "" : reader.GetString(5), reader.GetBoolean(6));
                     }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
                 }
             }
         }
@@ -269,24 +209,17 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
+                    command.CommandText = String.Format("SELECT * FROM Users WHERE (Users.Login = '{0}')", login);
+                    command.Connection = cnn;
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        command.CommandText = String.Format("SELECT * FROM Users WHERE (Users.Login = '{0}')", login);
-                        command.Connection = cnn;
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
 
-                            reader.Read();
-                            return new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(3), reader.GetDateTime(4), reader.IsDBNull(5) ? "" : reader.GetString(5), reader.GetBoolean(6));
-                        }
+                        reader.Read();
+                        return new User(reader.GetInt32(0), reader.GetString(1), reader.GetString(3), reader.GetDateTime(4), reader.IsDBNull(5) ? "" : reader.GetString(5), reader.GetBoolean(6));
                     }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
                 }
             }
         }
@@ -295,19 +228,12 @@ namespace SSU.ThreeLayer.DAL
         {
             using (var cnn = new SqlConnection(connectionString))
             {
-                try
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
                 {
-                    cnn.Open();
-                    using (SqlCommand command = new SqlCommand())
-                    {
-                        command.CommandText = String.Format("UPDATE Ratings SET Rating = {0} WHERE (shopId = {1} AND userId = {2});", rating, shopId, currentUser.Id);
-                        command.Connection = cnn;
-                        command.ExecuteNonQuery();
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
+                    command.CommandText = String.Format("UPDATE Ratings SET Rating = {0} WHERE (shopId = {1} AND userId = {2});", rating, shopId, currentUser.Id);
+                    command.Connection = cnn;
+                    command.ExecuteNonQuery();
                 }
             }
         }
@@ -335,20 +261,9 @@ namespace SSU.ThreeLayer.DAL
                 {
                     if (e.Number == 2601)
                     {
-                        try
-                        {
-                            cnn.Close();
-                            UpdateRating(shopId, rating);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new ArgumentException(ex.Message);
-                        }
+                        cnn.Close();
+                        UpdateRating(shopId, rating);
                     }
-                }
-                catch (Exception e)
-                {
-                    throw new ArgumentException(e.Message);
                 }
             }
         }
