@@ -5,6 +5,9 @@ namespace SSU.ThreeLayer.BLL
 {
     public interface IShopBusinessLogic
     {
+        int GetMinRating();
+        int GetMaxRating();
+
         void AddShop(Shop shop);
         void DeleteShop(int index);
 

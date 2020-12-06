@@ -252,5 +252,33 @@ namespace SSU.ThreeLayer.DAL
                 }
             }
         }
+
+        public void RateShop(int shopId, int rating, int userId)
+        {
+            using (var cnn = new SqlConnection(connectionString))
+            {
+                cnn.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.CommandText = "RateShopOrUpdate";
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Connection = cnn;
+
+                    SqlParameter ShopId = new SqlParameter("@ShopId", SqlDbType.Int);
+                    ShopId.Value = shopId;
+                    command.Parameters.Add(ShopId);
+
+                    SqlParameter UserId = new SqlParameter("@UserId", SqlDbType.Int);
+                    UserId.Value = userId;
+                    command.Parameters.Add(UserId);
+
+                    SqlParameter Rating = new SqlParameter("@Rating", SqlDbType.Int);
+                    Rating.Value = rating;
+                    command.Parameters.Add(Rating);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

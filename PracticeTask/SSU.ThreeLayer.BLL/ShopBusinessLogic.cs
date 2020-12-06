@@ -16,6 +16,16 @@ namespace SSU.ThreeLayer.BLL
             this.dataValidator = dataValidator;
         }
 
+        public int GetMinRating()
+        {
+            return dataValidator.MinRatingValue();
+        }
+
+        public int GetMaxRating()
+        {
+            return dataValidator.MaxRatingValue();
+        }
+
         public List<Shop> GetAllShops()
         {
             return shopAccess.GetAllShops();

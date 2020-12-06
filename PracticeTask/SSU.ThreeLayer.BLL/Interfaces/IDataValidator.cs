@@ -21,6 +21,9 @@ namespace SSU.ThreeLayer.BLL
 
         //---------------------------------------------------------------------------------------------------
 
+        int MinRatingValue();
+        int MaxRatingValue();
+
         string AddShopValidator(Shop shop);
         string DeleteShopValidator(int index);
 

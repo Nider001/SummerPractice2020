@@ -20,6 +20,7 @@ namespace SSU.ThreeLayer.BLL
         List<User> GetAllUsers();
 
         void RateShop(int shopId, int rating);
+        void RateShop(int shopId, int rating, int userId);
 
         User GetUser(int index);
         User GetUser(string login);

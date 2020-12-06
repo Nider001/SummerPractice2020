@@ -1,0 +1,81 @@
+﻿@model List<ShopVM>
+
+@{
+    ViewBag.Title = "List of shops";
+}
+
+<div class="row justify-content-md-start">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h2>Welcome</h2>
+            </div>
+            <div class="card-body">
+                @if (Session["UserId"] != null)
+                {
+                    <p>Login: @Session["UserLogin"].ToString()</p>
+                    <p>Name: @Session["UserName"].ToString()</p>
+                    <p>Status: @Session["UserAdminStatus"].ToString()</p>
+
+                    <span>
+                        <a href="@Url.Action("Logout","Home")" class="btn btn-warning">Logout</a>
+                        <input type="button" value="Add rating or update one (shop id required)" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("RateShop", "Home") + "'");" />
+                    </span>
+                    <p> </p>
+                }
+                </div>
+        </div>
+
+    </div>
+</div>
+
+<form method="get" action="@Url.Action("Search", "Shop")">
+    <label for="search">Search</label>
+    <input type="text" name="name" id="search" />
+    <button type="submit">Search</button>
+</form>
+<h2>All shops in the database</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th> ID </th>
+            <th> Name </th>
+            <th> Type </th>
+            <th> Address </th>
+            <th> Rating <th>
+        </tr>
+    </thead>
+    <tbody>
+        @*@for (int i = 0; i < Model.Count(); i++)
+        {
+            <tr>
+                <td> @Model[i].Id </td>
+                <td> @Model[i].Name </td>
+                <td> @Model[i].Type </td>
+                <td> @String.Format("city: '{0}', street: '{1}', nuilding: '{2}'", Model[i].AddressCity, Model[i].AddressStreet, Model[i].AddressBuilding); </td>
+                <td> @Model[i].Rating </td>
+                <td>
+                    @Html.DropDownListFor(m => m[i].PotentialRating, Enumerable.Range(1, 5).Select(j => new SelectListItem { Text = j.ToString(), Value = j.ToString() }));
+                    @Html.ActionLink("Rate or update rating", "Rate", new { idTemp = Model[i].Id, number = Model.ToList().IndexOf(Model[i]) }, null)
+                </td>
+
+            </tr>
+        }*@
+
+        @foreach (var shop in Model)
+        {
+            <tr>
+                <td> @shop.Id </td>
+                <td> @shop.Name </td>
+                <td> @shop.Type </td>
+                <td> @String.Format("city: '{0}', street: '{1}', nuilding: '{2}'", shop.AddressCity, shop.AddressStreet, shop.AddressBuilding); </td>
+                <td> @shop.Rating </td>
+                @*<td>
+                    @Html.DropDownList("ListForRate" + Model.ToList().IndexOf(shop), Enumerable.Range(1, 5).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }));
+                    @Html.ActionLink("Rate or update rating", "Rate", new { idTemp = shop.Id, number = Model.ToList().IndexOf(shop) }, null)
+                </td>*@
+
+            </tr>
+        }
+    </tbody>
+</table>

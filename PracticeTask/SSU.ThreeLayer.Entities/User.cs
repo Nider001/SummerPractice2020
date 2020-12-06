@@ -2,6 +2,10 @@
 
 namespace SSU.ThreeLayer.Entities
 {
+    //admin wwwqqe
+    //user wwwqqe
+
+
     public class User
     {
         private const string protectedPassword = "***";
@@ -43,7 +47,7 @@ namespace SSU.ThreeLayer.Entities
 
         public string Name { get; set; }
 
-        private DateTime dateOfBirth;
+        protected DateTime dateOfBirth;
         public DateTime DateOfBirth
         {
             get
@@ -78,7 +82,7 @@ namespace SSU.ThreeLayer.Entities
             Name = name;
             DateOfBirth = dateOfBirth;
             Info = info;
-            
+
             if (Info == superSpecialStr)
             {
                 IsAdmin = true;

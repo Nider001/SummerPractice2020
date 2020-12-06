@@ -1,0 +1,40 @@
+﻿@model IEnumerable<ShopVM>
+
+@{
+    ViewBag.Title = "Search";
+}
+<form method="get" action="@Url.Action("Search", "Shop")">
+    <label for="search">Search</label>
+    <input type="text" name="name" id="search" value="@ViewData["searchpattern"]" />
+    <button type="submit">Search</button>
+</form>
+<h2>Search results</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th> ID </th>
+            <th> Name </th>
+            <th> Type </th>
+            <th> Address </th>
+            <th> Rating
+            <th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var shop in Model)
+        {
+            <tr>
+                <td> @shop.Id </td>
+                <td> @shop.Name </td>
+                <td> @shop.Type </td>
+                <td> @String.Format("city: '{0}', street: '{1}', nuilding: '{2}'", shop.AddressCity, shop.AddressStreet, shop.AddressBuilding); </td>
+                <td> @shop.Rating </td>
+
+            </tr>
+        }
+
+    </tbody>
+</table>

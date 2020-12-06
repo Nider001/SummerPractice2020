@@ -255,7 +255,7 @@ namespace SSU.ThreeLayer.DAL
 
         public void AddShop(Shop shop)
         {
-            int addressId = GetAddressId(shop.Address_City, shop.Address_Street, shop.Address_Building);
+            int addressId = GetAddressId(shop.AddressCity, shop.AddressStreet, shop.AddressBuilding);
             int typeId = GetShopTypeId(shop.Type);
 
             using (var cnn = new SqlConnection(connectionString))

@@ -14,8 +14,8 @@ namespace SSU.ThreeLayer.BLL
         public int Users_Info_MaxLength { get; } = 2550;
         public int Users_Password_MinLength { get; } = User.PasswordMinLength;
 
-        public int Ratings_Rating_MinValue { get; } = Shop.MinRating;
-        public int Ratings_Rating_MaxValue { get; } = Shop.MaxRating;
+        public int Ratings_Rating_MinValue { get; } = 1;
+        public int Ratings_Rating_MaxValue { get; } = 5;
 
         public int Shops_Name_MaxLength { get; } = 255;
 
@@ -70,7 +70,7 @@ namespace SSU.ThreeLayer.BLL
         {
             return rating >= Ratings_Rating_MinValue && rating <= Ratings_Rating_MaxValue;
         }
-        
+
         public bool ShopsNameValidate(string name)
         {
             return name.Length <= Shops_Name_MaxLength && Regex.IsMatch(name, Shops_Name_Format);
@@ -97,6 +97,16 @@ namespace SSU.ThreeLayer.BLL
         }
         #endregion
 
+        public int MinRatingValue()
+        {
+            return Ratings_Rating_MinValue;
+        }
+
+        public int MaxRatingValue()
+        {
+            return Ratings_Rating_MaxValue;
+        }
+
         public string AddShopValidator(Shop shop)
         {
             string result = "";
@@ -105,11 +115,11 @@ namespace SSU.ThreeLayer.BLL
 
             if (!ShopTypesNameValidate(shop.Type)) result += separatorStr + string.Format("type (out of max ({0}) range or invalid syntax)", ShopTypes_Name_MaxLength);
 
-            if (!AddressesCityValidate(shop.Address_City)) result += separatorStr + string.Format("city (out of max ({0}) range or invalid syntax)", Addresses_City_MaxLength);
+            if (!AddressesCityValidate(shop.AddressCity)) result += separatorStr + string.Format("city (out of max ({0}) range or invalid syntax)", Addresses_City_MaxLength);
 
-            if (!AddressesStreetValidate(shop.Address_Street)) result += separatorStr + string.Format("street (out of max ({0}) range or invalid syntax)", Addresses_Street_MaxLength);
+            if (!AddressesStreetValidate(shop.AddressStreet)) result += separatorStr + string.Format("street (out of max ({0}) range or invalid syntax)", Addresses_Street_MaxLength);
 
-            if (!AddressesBuildingValidate(shop.Address_Building)) result += separatorStr + string.Format("building (out of max ({0}) range or invalid syntax)", Addresses_Building_MaxLength);
+            if (!AddressesBuildingValidate(shop.AddressBuilding)) result += separatorStr + string.Format("building (out of max ({0}) range or invalid syntax)", Addresses_Building_MaxLength);
 
             return result.Length != 0 ? appendStr + result + outOfRangeStr : result;
         }

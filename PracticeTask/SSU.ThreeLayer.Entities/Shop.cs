@@ -8,36 +8,33 @@ namespace SSU.ThreeLayer.Entities
 {
     public class Shop
     {
-        public static int MinRating { get; } = 1;
-        public static int MaxRating { get; } = 5;
-
         public int Id { get; set; } = 0;
 
         public string Name { get; set; }
 
         public string Type { get; set; }
 
-        public string Address_City { get; set; }
-        public string Address_Street { get; set; }
-        public string Address_Building { get; set; }
+        public string AddressCity { get; set; }
+        public string AddressStreet { get; set; }
+        public string AddressBuilding { get; set; }
 
         public Shop(string name, string type, string city, string street, string building)
         {
             Name = name;
             Type = type;
-            Address_City = city;
-            Address_Street = street;
-            Address_Building = building;
+            AddressCity = city;
+            AddressStreet = street;
+            AddressBuilding = building;
         }
 
-        public Shop(int id, string name, string type, string city, string street, string building) : this (name, type, city, street, building)
+        public Shop(int id, string name, string type, string city, string street, string building) : this(name, type, city, street, building)
         {
             Id = id;
         }
 
         public override string ToString()
         {
-            string shopAddress = String.Format("city: '{0}', street: '{1}', nuilding: '{2}'", Address_City, Address_Street, Address_Building);
+            string shopAddress = String.Format("city: '{0}', street: '{1}', nuilding: '{2}'", AddressCity, AddressStreet, AddressBuilding);
             return "Shop № " + Id + Environment.NewLine + "   Name: " + Name + Environment.NewLine + "   Type: " + Type + Environment.NewLine + "   Address: [" + shopAddress + "]";
         }
     }

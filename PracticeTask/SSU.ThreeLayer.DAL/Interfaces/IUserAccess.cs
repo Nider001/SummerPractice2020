@@ -21,6 +21,7 @@ namespace SSU.ThreeLayer.DAL
         List<User> GetAllUsers();
 
         void RateShop(int shopId, int rating);
+        void RateShop(int shopId, int rating, int userId);
 
         User GetUser(int index);
         User GetUser(string login);

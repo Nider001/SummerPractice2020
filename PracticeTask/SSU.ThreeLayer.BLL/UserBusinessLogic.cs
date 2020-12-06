@@ -117,5 +117,13 @@ namespace SSU.ThreeLayer.BLL
 
             userAccess.RateShop(shopId, rating);
         }
+
+        public void RateShop(int shopId, int rating, int userId)
+        {
+            string v = dataValidator.RateShopValidator(shopId, rating);
+            if (v.Length != 0) throw new FormatException(v);
+
+            userAccess.RateShop(shopId, rating, userId);
+        }
     }
 }
